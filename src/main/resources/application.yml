@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    function:
+      definition: uppercase|reverse
+    stream:
+      bindings:
+        uppercasereverse-in-0:
+          destination: input-string
+          group: cloudFunctions
+        uppercasereverse-out-0:
+          destination: ouput-string
