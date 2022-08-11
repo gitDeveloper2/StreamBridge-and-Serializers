@@ -1,11 +1,29 @@
 spring:
   cloud:
     function:
-      definition: uppercase|reverse
+      definition: producermotions;consumermotions
     stream:
       bindings:
-        uppercasereverse-in-0:
-          destination: input-string
-          group: cloudFunctions
-        uppercasereverse-out-0:
-          destination: ouput-string
+        producermotions-out-0:
+          destination: motions
+          producer:
+            useNativeEncoding: true
+        consumermotions-in-0:
+          destination: motions
+          consumer:
+            useNativeDecoding: true
+
+      kafka:
+        bindings:
+          producermotions-out-0:
+            producer:
+              configuration:
+                value.serializer: com.gitDeveloper2.cloudFunctions.MySerializer
+          consumermotions-in-0:
+            consumer:
+              configuration:
+                value.deserializer: com.gitDeveloper2.cloudFunctions.MyDeserializer
+        binder:
+          brokers:
+            - localhost:9091
+            - localhost:9092
